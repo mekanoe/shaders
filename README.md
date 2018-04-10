@@ -2,6 +2,8 @@
 
 Okano's Unity Shaders. Big mishmash of reworked, original, and mixed shaders.
 
+[Download the pack here](https://github.com/kayteh/shaders/releases/download/2018APR10/okano-shaders.unitypackage)
+
 ## Shaders
 
 - **Cubed Flat Lit Toon Stencil** - Stencil diffused version of FLT, with custom editor for helping it.
