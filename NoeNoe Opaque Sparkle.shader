@@ -22,6 +22,8 @@ Shader "Okano/NoeNoe Opaque Emissive Sparkle" {
         _OutlineWidth ("Outline Width", Float ) = 0
         _OutlineColor ("Outline Color", Color) = (0,0,0,1)
         [MaterialToggle] _ScreenSpaceOutline ("Screen-Space Outline", Float ) = 0
+
+		[HideInInspector] _EmissionFilterMode ("__emissionfiltermode", Float) = 0.0        
     }
     SubShader {
         Tags {
@@ -337,5 +339,5 @@ Shader "Okano/NoeNoe Opaque Emissive Sparkle" {
         }
     }
     FallBack "NoeNoe/NoeNoe Overlay Shader (Opaque)"
-    CustomEditor "ShaderForgeMaterialInspector"
+    CustomEditor "OkanoSparkleInspector"
 }

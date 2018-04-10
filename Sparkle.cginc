@@ -27,6 +27,7 @@ uniform float _EmissionNoiseSizeCoeff; // Bigger => larger glitter spots
 uniform float _EmissionNoiseDensity;  // Bigger => larger glitter spots
 uniform float _EmissionSparkleSpeed;
 
+#pragma shader_feature _FILTER_VIVID
 
 float3 mod289(float3 x) {
     return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -200,11 +201,18 @@ float4 EffectProcMain(in float2 uv, in float4 mainColorUpperLayer)
 
 
     float3 mixed = mainColorUpperLayer;
-    //mixed = softLight(noiseGreyShifted, s);
-    //mixed = hardLight(noiseGreyShifted, s);
-    mixed = vividLight(noiseGreyShifted, mainColorUpperLayer);
-    //mixed = pinLight(noiseGreyShifted, s);
-    //mixed = linearLight(noiseGreyShifted, s);
+
+    #if defined(_FILTER_HARD)
+        mixed = hardLight(noiseGreyShifted, mainColorUpperLayer);
+    #elif defined(_FILTER_SOFT)
+        mixed = softLight(noiseGreyShifted, mainColorUpperLayer);
+    #elif defined(_FILTER_PIN)
+        mixed = pinLight(noiseGreyShifted, mainColorUpperLayer);
+    #elif defined(_FILTER_LINEAR)
+        mixed = linearLight(noiseGreyShifted, mainColorUpperLayer);
+    #else // defined(_FILTER_VIVID)
+        mixed = vividLight(noiseGreyShifted, mainColorUpperLayer);
+    #endif
 
     return float4(mixed, 1.0);
 }
