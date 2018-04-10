@@ -197,7 +197,7 @@ float4 EffectProcMain(in float2 uv, in float4 mainColorUpperLayer)
     float n = fadeLR * fadeTB * smoothstep(0.50, 1.0, snoise(pos * 80.0)) * 8.0;
 
     // a bunch of constants here to shift the black-white of the noise to a greyer tone
-    float3 noiseGreyShifted = min((float3(n, n, n) + 1.0) / 3.0 + 0.3, float3(1.0, 1.0, 1.0)) * 0.91;
+    float3 noiseGreyShifted = min((float3(n, n, n) + 1.0) / 3.0 + 0.3, float3(1.0, 1.0, 1.0)) * 0.96;
 
 
     float3 mixed = mainColorUpperLayer;
