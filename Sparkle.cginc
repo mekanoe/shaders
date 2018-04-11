@@ -26,30 +26,147 @@ struct v2f
 uniform float _EmissionNoiseSizeCoeff; // Bigger => larger glitter spots
 uniform float _EmissionNoiseDensity;  // Bigger => larger glitter spots
 uniform float _EmissionSparkleSpeed;
+uniform float _EmissionGreyShift;
 
-#pragma shader_feature _FILTER_VIVID
 
 float3 mod289(float3 x) {
     return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
 
-float4 mod289(float4 x) {
-    return x - floor(x * (1.0 / 289.0)) * 289.0;
+// float4 mod289(float4 x) {
+//     return x - floor(x * (1.0 / 289.0)) * 289.0;
+// }
+
+// float4 permute(float4 x) {
+//     return mod289(((x*34.0) + 1.0)*x);
+// }
+
+// float4 taylorInvSqrt(float4 r)
+// {
+//     return 1.79284291400159 - 0.85373472095314 * r;
+// }
+
+//
+// GLSL textureless classic 2D noise "cnoise",
+// with an RSL-style periodic variant "pnoise".
+// Author:  Stefan Gustavson (stefan.gustavson@liu.se)
+// Version: 2011-08-22
+//
+// Many thanks to Ian McEwan of Ashima Arts for the
+// ideas for permutation and gradient selection.
+//
+// Copyright (c) 2011 Stefan Gustavson. All rights reserved.
+// Distributed under the MIT license. See LICENSE file.
+// https://github.com/stegu/webgl-noise
+//
+
+float4 mod289(float4 x)
+{
+  return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
 
-float4 permute(float4 x) {
-    return mod289(((x*34.0) + 1.0)*x);
+float4 permute(float4 x)
+{
+  return mod289(((x*34.0)+1.0)*x);
 }
 
 float4 taylorInvSqrt(float4 r)
 {
-    return 1.79284291400159 - 0.85373472095314 * r;
+  return 1.79284291400159 - 0.85373472095314 * r;
+}
+
+float2 fade(float2 t) {
+  return t*t*t*(t*(t*6.0-15.0)+10.0);
+}
+
+// Classic Perlin noise
+float cnoise(float2 P)
+{
+  float4 Pi = floor(P.xyxy) + float4(0.0, 0.0, 1.0, 1.0);
+  float4 Pf = frac(P.xyxy) - float4(0.0, 0.0, 1.0, 1.0);
+  Pi = mod289(Pi); // To avoid truncation effects in permutation
+  float4 ix = Pi.xzxz;
+  float4 iy = Pi.yyww;
+  float4 fx = Pf.xzxz;
+  float4 fy = Pf.yyww;
+
+  float4 i = permute(permute(ix) + iy);
+
+  float4 gx = frac(i * (1.0 / 41.0)) * 2.0 - 1.0 ;
+  float4 gy = abs(gx) - 0.5 ;
+  float4 tx = floor(gx + 0.5);
+  gx = gx - tx;
+
+  float2 g00 = float2(gx.x,gy.x);
+  float2 g10 = float2(gx.y,gy.y);
+  float2 g01 = float2(gx.z,gy.z);
+  float2 g11 = float2(gx.w,gy.w);
+
+  float4 norm = taylorInvSqrt(float4(dot(g00, g00), dot(g01, g01), dot(g10, g10), dot(g11, g11)));
+  g00 *= norm.x;  
+  g01 *= norm.y;  
+  g10 *= norm.z;  
+  g11 *= norm.w;  
+
+  float n00 = dot(g00, float2(fx.x, fy.x));
+  float n10 = dot(g10, float2(fx.y, fy.y));
+  float n01 = dot(g01, float2(fx.z, fy.z));
+  float n11 = dot(g11, float2(fx.w, fy.w));
+
+//   float2 fade_xy = fade(Pf.xy);
+//   float2 n_x = lerp(float2(n00, n01), float2(n10, n11), fade_xy.x);
+//   float n_xy = lerp(n_x.x, n_x.y, fade_xy.y);
+
+  float4 m = max(_EmissionNoiseSizeCoeff - float4(dot(n00, n00), dot(n10, n10), dot(n01, n01), dot(n11, n11)), 0.0);
+  m = m * m;
+  return _EmissionNoiseDensity * dot(m*m, float4(dot(g00, n00), dot(g01, n01), dot(g10, n10), dot(g11, n11)));
+}
+
+// Classic Perlin noise, periodic variant
+float pnoise(float2 P, float2 rep)
+{
+  float4 Pi = floor(P.xyxy) + float4(0.0, 0.0, 1.0, 1.0);
+  float4 Pf = frac(P.xyxy) - float4(0.0, 0.0, 1.0, 1.0);
+  Pi = fmod(Pi, rep.xyxy); // To create noise with explicit period
+  Pi = mod289(Pi);        // To avoid truncation effects in permutation
+  float4 ix = Pi.xzxz;
+  float4 iy = Pi.yyww;
+  float4 fx = Pf.xzxz;
+  float4 fy = Pf.yyww;
+
+  float4 i = permute(permute(ix) + iy);
+
+  float4 gx = frac(i * (1.0 / 41.0)) * 2.0 - 1.0 ;
+  float4 gy = abs(gx) - 0.5 ;
+  float4 tx = floor(gx + 0.5);
+  gx = gx - tx;
+
+  float2 g00 = float2(gx.x,gy.x);
+  float2 g10 = float2(gx.y,gy.y);
+  float2 g01 = float2(gx.z,gy.z);
+  float2 g11 = float2(gx.w,gy.w);
+
+  float4 norm = taylorInvSqrt(float4(dot(g00, g00), dot(g01, g01), dot(g10, g10), dot(g11, g11)));
+  g00 *= norm.x;  
+  g01 *= norm.y;  
+  g10 *= norm.z;  
+  g11 *= norm.w;  
+
+  float n00 = dot(g00, float2(fx.x, fy.x));
+  float n10 = dot(g10, float2(fx.y, fy.y));
+  float n01 = dot(g01, float2(fx.z, fy.z));
+  float n11 = dot(g11, float2(fx.w, fy.w));
+
+  float2 fade_xy = fade(Pf.xy);
+  float2 n_x = lerp(float2(n00, n01), float2(n10, n11), fade_xy.x);
+  float n_xy = lerp(n_x.x, n_x.y, fade_xy.y);
+  return 2.3 * n_xy;
 }
 
 float snoise(float3 v)
 {
     float2  C = float2(1.0 / 6.0, 1.0 / 3.0);//const
-    float4  D = float4(0.0, 0.5, 1.0, 2.0);//const
+    float4  D = float4(0.0, 3.5, 1.0, 4.0);//const
 
     // First corner
     float3 i = floor(v + dot(v, C.yyy));
@@ -190,15 +307,15 @@ float4 EffectProcMain(in float2 uv, in float4 mainColorUpperLayer)
     float fadeLR = 0.5 - abs(uv.x - 0.5);
     float fadeTB = 1.0 - uv.y;
 
-    float2 xyPart = uv * float2(3.0, 1.0) - float2(0.0, _Time[0] * _EmissionSparkleSpeed * 0.00005);
+    float2 xyPart = uv * float2(3.0, 1) - float2(0.0, _Time[0] * _EmissionSparkleSpeed * 0.00005);
     float zPart = _Time[0] * _EmissionSparkleSpeed * 0.006;
     float3 pos = float3(xyPart, zPart);
-
-    float n = fadeLR * fadeTB * smoothstep(0.50, 1.0, snoise(pos * 80.0)) * 8.0;
+    float dC = _EmissionNoiseDensity * 1000;
+	float n = smoothstep(0.50, 1.0, snoise(pos * 180.0)) * 8.0;
 
     // a bunch of constants here to shift the black-white of the noise to a greyer tone
-    float3 noiseGreyShifted = min((float3(n, n, n) + 1.0) / 3.0 + 0.3, float3(1.0, 1.0, 1.0)) * 0.96;
-
+    float3 noiseGreyShifted = min((float3(n, n, n) + 1.0) / 3.0 + 0.3, float3(1.0, 1.0, 1.0)) * ((_EmissionGreyShift*0.15) + 0.8);
+    // float3 noiseGreyShifted = float3(n,n,n);
 
     float3 mixed = mainColorUpperLayer;
 

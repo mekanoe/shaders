@@ -15,9 +15,10 @@ Shader "Okano/NoeNoe Opaque Emissive Sparkle" {
         _EmissionMap ("Emission Map", 2D) = "white" {}
         _Emission ("Emission", Range(0, 10)) = 0
         _Intensity ("Intensity", Range(0, 10)) = 1
-		_EmissionNoiseSizeCoeff("Emission Noise Size Coeff", float) = 0.61
+		_EmissionNoiseSizeCoeff("Emission Noise Size Coeff", Range(0,1)) = 0.61
 		_EmissionNoiseDensity("Emission Noise Density", float) = 53.0
 		_EmissionSparkleSpeed("Emission Sparkle Speed", float) = 10
+		_EmissionGreyShift("Emission Grey Shift", Range(0,1)) = 0.5
         _NormalMap ("Normal Map", 2D) = "bump" {}
         _OutlineWidth ("Outline Width", Float ) = 0
         _OutlineColor ("Outline Color", Color) = (0,0,0,1)
@@ -50,6 +51,7 @@ Shader "Okano/NoeNoe Opaque Emissive Sparkle" {
             #include "Sparkle.cginc"
             #pragma multi_compile_fwdbase_fullshadows
             #pragma only_renderers d3d9 d3d11 glcore gles 
+            #pragma shader_feature _FILTER_VIVID _FILTER_HARD _FILTER_LINEAR _FILTER_SOFT _FILTER_PIN
             #pragma target 3.0
             uniform float4 _TimeEditor;
             uniform float4 _Color;
