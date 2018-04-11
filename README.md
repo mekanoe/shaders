@@ -2,7 +2,7 @@
 
 Okano's Unity Shaders. Big mishmash of reworked, original, and mixed shaders.
 
-[Download the pack here](https://github.com/kayteh/shaders/releases/download/2018APR10/okano-shaders.unitypackage)
+[Download the pack here](https://github.com/kayteh/shaders/releases/latest)
 
 ## Shaders
 
