@@ -8,15 +8,19 @@ Okano's Unity Shaders. Big mishmash of reworked, original, and mixed shaders.
 
 - **Cubed Flat Lit Toon Stencil** - Stencil diffused version of FLT, with custom editor for helping it.
 - **NoeNoe Emission Scroll** - Applies the overlay texture scroll mechanics to the emission map.
-- **NoeNoe Opaque Rework** - Changes light multiplier to re-emit the output color as if it was the emission map.
+- **NoeNoe Cutout** - Cutout version of NoeNoe
+- **NoeNoe Opaque Rework** - Changes light multiplier to re-emit the output color as if it was the emission map. Also includes Stencil version.
 - **NoeNoe Opaque Stencil** - Stencil diffused version of NoeNoe.
-- **NoeNoe Opaque Sparkle** - Applies a controllable perlin noise light filter over the emission map.
+- **NoeNoe Opaque Sparkle** - Applies a controllable perlin noise light filter over the emission map. WIP.
 - **Stencil Mask** - Helper shader for mask materials, allows per-material Ref values.
 - **Wireframe Overlay** - ([See docs](https://github.com/kayteh/shaders/blob/master/Docs/Wireframe.md)) An optionally shaded wireframe overlay texture with a scrolling wireframe texture.
+- **Transparent** - Very efficient pure alpha shader for lazy people.
 
 ### TODO
 
 - Option-based stencils
+- Custom NoeNoe Editor to combine the set
+- Dissolve Edge, Bail Edition
 
 ## Examples
 
