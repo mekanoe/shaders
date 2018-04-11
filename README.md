@@ -2,6 +2,10 @@
 
 Okano's Unity Shaders. Big mishmash of reworked, original, and mixed shaders.
 
+Built and tested in Unity 5.6.3p1 for VRChat and partially tested in 2018.1.
+
+Most of these do not replace the real shaders for most uses.
+
 [Download the pack here](https://github.com/kayteh/shaders/releases/latest)
 
 ## Shaders
@@ -39,3 +43,10 @@ Okano's Unity Shaders. Big mishmash of reworked, original, and mixed shaders.
 
 <a href="https://gfycat.com/WeirdGlaringHake" target="_blank"><img src="https://thumbs.gfycat.com/WeirdGlaringHake-size_restricted.gif" /></a>  
 ([Higher Res](https://gfycat.com/WeirdGlaringHake))
+
+## Hat Tips
+
+- CubedParadox's [Flat Lit Toon](https://github.com/cubedparadox/Cubeds-Unity-Shaders)
+- NoeNoe's [Overlay Shaders](https://vrcat.club/threads/updated-2-2-18-noenoe-overlay-shaders.157/)
+- Bail's emotional support
+- VRChat friends that stare into my eyes
