@@ -65,7 +65,7 @@
 			fixed4 c2m = tex2D(_MetalMap2, IN.uv_Tex2);
 			fixed4 c2e = tex2D(_EmissionMap2, IN.uv_Tex2);
 			
-			float3 f3Pos = float3(position, position, position);
+			// float3 f3Pos = float3(position, position, position);
 			
 			o.Albedo = saturate(lerp(c1.rgb, c2.rgb, position)) * (_Tint.rgb * _Tint.a);
 			o.Metallic = saturate(lerp(c1m.r, c2m.r, position));
