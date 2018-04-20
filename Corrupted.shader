@@ -2,6 +2,7 @@
 {
 	Properties
 	{
+		_Tint ("Color", Color) = (0,0,0,0)
 		_MainTex ("Texture", 2D) = "white" {}
 		_UVNoiseFloor ("Selection Floor", Range(0,1)) = 0.9
 		_Gain ("Gain", float) = 5
@@ -10,14 +11,16 @@
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" }
-		LOD 100
 		Cull off
 		// ZWrite off
-		// Blend Zero One
+		// Offset -1,-1
+		// ZBlend
 
 		Pass
 		{
 			CGPROGRAM
+// Upgrade NOTE: excluded shader from DX11; has structs without semantics (struct v2f members amount)
+// #pragma exclude_renderers d3d11
 			#pragma vertex vert
 			#pragma fragment frag
 			// make fog work
@@ -29,54 +32,71 @@
 			struct appdata
 			{
 				float4 vertex : POSITION;
-			    float4 tangent : TANGENT;
 				float2 uv : TEXCOORD0;
 				float4 normal : NORMAL;
+				// float4 tangent : TANGENT;
+				// float2 depth : TEXCOORD1;
 			};
 
 			struct v2f
 			{
 				float2 uv : TEXCOORD0;
-				UNITY_FOG_COORDS(1)
+				// UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
+				float amount : PSIZE0;
+				float2 depth : TEXCOORD1;				
 			};
+
+			struct fout 
+			{
+                float4 color:COLOR;
+                float depth:DEPTH;
+            };     
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float _UVNoiseFloor;
 			float _Gain;
 			float _Random;
+			float4 _Tint;
 			
 			v2f vert (appdata v)
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				float3 tan = UnityObjectToWorldDir(v.tangent.xyz);
-
+				o.amount = 0;
 				// move the vert, only if selection noise value is above some value
-				float selNoise = snoise(float3(v.uv, _Random)); // deterministic, but not based on unity's UVs
-				
+				float selNoise = snoise(float3(v.uv, _Random) + (_Time.x * 3.141592)); // deterministic, but not based on unity's UVs
 				// move it on a sine curve * grow noise value
 				if (selNoise >= _UVNoiseFloor) {
 					float gain = (1.0 - _UVNoiseFloor) * _Gain;
+					float amount = (max(-0.2,(_SinTime.y + 1) * 0.5)) * gain * selNoise;
+					// float3 tan = UnityObjectToWorldDir(v.tangent.xyz);
+					
 					float3 movementDir = v.normal.xyz;
-					float amount = max(0,(sin(_Time.y) + 1) * 0.5) * gain;
-
-					o.vertex.xyz -= movementDir * amount;
+					o.vertex.xyz -= (movementDir * amount);
+					o.amount = amount;
 				}
 				
-				UNITY_TRANSFER_FOG(o,o.vertex);
+				// UNITY_TRANSFER_FOG(o,o.vertex);
+				// UNITY_TRANSFER_DEPTH(o,o.depth);
 				return o;
 			}
 			
-			fixed4 frag (v2f i) : SV_Target
+			fout frag (v2f i) : SV_Target
 			{
+				fout fo;
 				// sample the texture
-				fixed4 col = tex2D(_MainTex, i.uv);
+				fixed4 col = tex2D(_MainTex, i.uv);				
+
+				// col.rgb = float3(i.amount, i.amount, i.amount) * 100;
 				// apply fog
-				UNITY_APPLY_FOG(i.fogCoord, col);
-				return col;
+				// UNITY_APPLY_FOG(i.fogCoord, col);
+				fo.color = col * _Tint;
+				fo.depth = -1;
+				
+				return fo;
 			}
 			ENDCG
 		}
