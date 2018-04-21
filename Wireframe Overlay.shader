@@ -23,7 +23,7 @@ Shader "Okano/Wireframe Overlay" {
 			#pragma fragment frag
 
 			#include "UnityCG.cginc"
-			#include "Wireframe.cginc"
+			#include "Libraries/Wireframe.cginc"
 
 			ENDCG
 		}

@@ -1,4 +1,4 @@
-﻿Shader "Okano/Scuffed Glitter" {
+﻿Shader "Okano/Experiments/Scuffed Glitter" {
 	Properties {
 		_MainTex ("Main Texture", 2D) = "white"
 		_NoiseMap ("Noise Map", 2D) = "white"

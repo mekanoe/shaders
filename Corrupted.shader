@@ -27,7 +27,7 @@
 			#pragma multi_compile_fog
 			
 			#include "UnityCG.cginc"
-			#include "SimplexNoise.cginc"
+			#include "Libraries/SimplexNoise.cginc"
 
 			struct appdata
 			{
@@ -44,7 +44,6 @@
 				// UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
 				float amount : PSIZE0;
-				float2 depth : TEXCOORD1;				
 			};
 
 			struct fout 
@@ -84,19 +83,16 @@
 				return o;
 			}
 			
-			fout frag (v2f i)
+			half4 frag (v2f i) : COLOR
 			{
-				fout fo;
 				// sample the texture
-				fixed4 col = tex2D(_MainTex, i.uv);				
+				half4 col = tex2D(_MainTex, i.uv);				
 
 				// col.rgb = float3(i.amount, i.amount, i.amount) * 100;
 				// apply fog
 				// UNITY_APPLY_FOG(i.fogCoord, col);
-				fo.color = col * _Tint;
-				// fo.depth = 2;
-				
-				return fo;
+	
+				return col;
 			}
 			ENDCG
 		}

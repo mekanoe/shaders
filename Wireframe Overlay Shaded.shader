@@ -28,7 +28,7 @@ Shader "Okano/Wireframe Overlay (Shaded)"
 			#pragma vertex vert
 			#define NW_SHADED 1
             #include "UnityCG.cginc"
-			#include "Wireframe.cginc"
+			#include "Libraries/Wireframe.cginc"
 			ENDCG
         }
 		Pass {

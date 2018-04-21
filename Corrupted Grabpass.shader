@@ -30,7 +30,7 @@
 			#pragma multi_compile_fog
 			
 			#include "UnityCG.cginc"
-			#include "SimplexNoise.cginc"
+			#include "Libraries/SimplexNoise.cginc"
 
 			struct appdata
 			{

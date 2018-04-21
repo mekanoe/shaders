@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: CorruptedTest
-  m_Shader: {fileID: 4800000, guid: a71d5964ed98b114a8d0ebed0554e716, type: 3}
+  m_Name: Experiment Rotation
+  m_Shader: {fileID: 4800000, guid: 7a6b5d663deca3448b60259373c58446, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -39,7 +39,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 6a1b2778e5621004c9c253291fad0a4d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5b914700c55b48c4492648d0c6f3ad24, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -55,11 +55,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Angle: 1.57
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Gain: 0.1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -67,11 +67,9 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Random: -0.24
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _UVNoiseFloor: 0.766
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:

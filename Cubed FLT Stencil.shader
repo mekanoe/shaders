@@ -46,7 +46,7 @@ Shader "Okano/Cubed Flat Lit Toon Stencil"
 			}
 
 			CGPROGRAM
-			#include "FlatLitToonCore.cginc"
+			#include "Libraries/FlatLitToonCore.cginc"
 			#pragma shader_feature NO_OUTLINE TINTED_OUTLINE COLORED_OUTLINE
 			#pragma shader_feature _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
 			#pragma vertex vert
@@ -131,7 +131,7 @@ Shader "Okano/Cubed Flat Lit Toon Stencil"
 			CGPROGRAM
 			#pragma shader_feature NO_OUTLINE TINTED_OUTLINE COLORED_OUTLINE
 			#pragma shader_feature _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
-			#include "FlatLitToonCore.cginc"
+			#include "Libraries/FlatLitToonCore.cginc"
 			#pragma vertex vert
 			#pragma geometry geom
 			#pragma fragment frag
@@ -194,7 +194,7 @@ Shader "Okano/Cubed Flat Lit Toon Stencil"
 
 			CGPROGRAM
 			#pragma shader_feature _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
-			#include "FlatLitToonShadows.cginc"
+			#include "Libraries/FlatLitToonShadows.cginc"
 			
 			#pragma multi_compile_shadowcaster
 			#pragma fragmentoption ARB_precision_hint_fastest

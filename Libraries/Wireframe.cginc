@@ -65,7 +65,10 @@ struct g2f
 
 v2g vert (appdata v)
 {
-    v2g o;
+    v2g o = (v2g)0;
+    o.uv0 = float2(0,0);
+    o.dist = float2(0,0);
+    o.area = float2(0,0);
     UNITY_SETUP_INSTANCE_ID(v);
     UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
     o.projectionSpaceVertex = UnityObjectToClipPos(v.vertex);
