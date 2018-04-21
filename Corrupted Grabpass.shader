@@ -47,8 +47,7 @@
 				// UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
 				float amount : PSIZE0;
-				float2 depth : TEXCOORD1;
-				float4 uvgrab : TEXCOORD2;		
+				float4 uvgrab : TEXCOORD1;		
 			};
 
 			sampler2D _MainTex;
