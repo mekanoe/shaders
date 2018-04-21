@@ -1,4 +1,4 @@
-﻿Shader "Okano/Experiments/Deep Fried" {
+﻿Shader "Hidden/Okano/Experiments/Deep Fried" {
 	Properties {
 		_MainTex ("Main Tex" , 2D) = "white" {}
 		_MemeMap ("Meme Map" , 2D) = "white" {}
@@ -15,7 +15,7 @@
 
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
-		#include "../SimplexNoise.cginc"
+		#include "../Libraries/SimplexNoise.cginc"
 
 		sampler2D _MainTex;
 		sampler2D _NoiseMap;

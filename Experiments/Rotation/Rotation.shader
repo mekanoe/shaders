@@ -1,5 +1,5 @@
 ﻿// learning stuffsss
-Shader "hidden/Okano/Experiments/Rotation"
+Shader "Hidden/Okano/Experiments/Rotation"
 {
 	Properties
 	{
