@@ -1,4 +1,4 @@
-Shader "Okano/NoeNoe Cutout" {
+Shader "Hidden/Okano/NoeNoe Cutout" {
     Properties {
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Main texture (RGB)", 2D) = "white" {}
@@ -17,6 +17,7 @@ Shader "Okano/NoeNoe Cutout" {
         _Emission ("Emission", Range(0, 10)) = 0
         _Intensity ("Intensity", Range(0, 10)) = 1
         _NormalMap ("Normal Map", 2D) = "bump" {}
+        [MaterialToggle] _Outline ("Outline Active", Float) = 0
         _OutlineWidth ("Outline Width", Float ) = 0
         _OutlineColor ("Outline Color", Color) = (0,0,0,1)
         [MaterialToggle] _ScreenSpaceOutline ("Screen-Space Outline", Float ) = 0
@@ -26,48 +27,62 @@ Shader "Okano/NoeNoe Cutout" {
             "RenderType"="TransparentCutout"
             "Queue"="AlphaTest"
         }
-        Pass {
-            Name "Outline"
-            Tags {
-            }
-            Cull Front
+        // Pass {
+        //     Name "Outline"
+        //     Tags {
+        //     }
+        //     Cull Front
             
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #define _GLOSSYENV 1
-            #include "UnityCG.cginc"
-            #include "UnityPBSLighting.cginc"
-            #include "UnityStandardBRDF.cginc"
-            #pragma fragmentoption ARB_precision_hint_fastest
-            #pragma multi_compile_shadowcaster
-            #pragma only_renderers d3d9 d3d11 glcore gles 
-            #pragma target 3.0
-            uniform float _OutlineWidth;
-            uniform fixed _ScreenSpaceOutline;
-            uniform float4 _OutlineColor;
-            struct VertexInput {
-                float4 vertex : POSITION;
-                float3 normal : NORMAL;
-            };
-            struct VertexOutput {
-                float4 pos : SV_POSITION;
-                float4 posWorld : TEXCOORD0;
-            };
-            VertexOutput vert (VertexInput v) {
-                VertexOutput o = (VertexOutput)0;
-                o.posWorld = mul(unity_ObjectToWorld, v.vertex);
-                float node_8257 = (_OutlineWidth*0.001);
-                o.pos = UnityObjectToClipPos( float4(v.vertex.xyz + v.normal*lerp( node_8257, (distance(_WorldSpaceCameraPos,mul(unity_ObjectToWorld, v.vertex).rgb)*node_8257), _ScreenSpaceOutline ),1) );
-                return o;
-            }
-            float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
-                float isFrontFace = ( facing >= 0 ? 1 : 0 );
-                float faceSign = ( facing >= 0 ? 1 : -1 );
-                return fixed4(_OutlineColor.rgb,0);
-            }
-            ENDCG
-        }
+        //     CGPROGRAM
+        //     #pragma vertex vert
+        //     #pragma fragment frag
+        //     #define _GLOSSYENV 1
+        //     #include "UnityCG.cginc"
+        //     #include "UnityPBSLighting.cginc"
+        //     #include "UnityStandardBRDF.cginc"
+        //     #pragma fragmentoption ARB_precision_hint_fastest
+        //     #pragma multi_compile_shadowcaster
+        //     #pragma only_renderers d3d9 d3d11 glcore gles 
+        //     #pragma shader_feature _ _OUTLINE_ON
+        //     #pragma target 3.0
+        //     uniform float _OutlineWidth;
+        //     uniform fixed _ScreenSpaceOutline;
+        //     uniform float4 _OutlineColor;
+                        
+        //     sampler2D _MainTex; 
+        //     float4 _MainTex_ST;
+        //     float _Cutoff;
+
+        //     struct VertexInput {
+        //         float4 vertex : POSITION;
+        //         float3 normal : NORMAL;
+        //         float2 uv : TEXCOORD0;
+        //     };
+        //     struct VertexOutput {
+        //         float4 pos : SV_POSITION;
+        //         float4 posWorld : TEXCOORD0;
+        //         float2 uv0 : TEXCOORD1;                
+        //     };
+        //     VertexOutput vert (VertexInput v) {
+        //         VertexOutput o = (VertexOutput)0;
+        //         o.uv0 = v.uv;
+        //         o.posWorld = mul(unity_ObjectToWorld, v.vertex);
+        //         float node_8257 = (_OutlineWidth*0.001);
+        //         o.pos = UnityObjectToClipPos( float4(v.vertex.xyz + v.normal*lerp( node_8257, (distance(_WorldSpaceCameraPos,mul(unity_ObjectToWorld, v.vertex).rgb)*node_8257), _ScreenSpaceOutline ),1) );
+        //         return o;
+        //     }
+        //     float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
+        //         float isFrontFace = ( facing >= 0 ? 1 : 0 );
+        //         float faceSign = ( facing >= 0 ? 1 : -1 );
+        //         float4 tex = tex2D(_MainTex, TRANSFORM_TEX(i.uv0, _MainTex));
+        //         // clip(tex.a - _Cutoff); 
+        //         if (tex.a - _Cutoff < 0) {
+        //             return fixed4(1,1,1,1);
+        //         }
+        //         return fixed4(_OutlineColor.rgb,0);
+        //     }
+        //     ENDCG
+        // }
         Pass {
             Name "FORWARD"
             Tags {
@@ -140,6 +155,8 @@ Shader "Okano/NoeNoe Cutout" {
                 return o;
             }
             float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
+                float4 _MainTex_var = tex2D(_MainTex,TRANSFORM_TEX(i.uv0, _MainTex));
+                clip(_MainTex_var.a - _Cutoff);
                 float isFrontFace = ( facing >= 0 ? 1 : 0 );
                 float faceSign = ( facing >= 0 ? 1 : -1 );
                 i.normalDir = normalize(i.normalDir);
@@ -170,7 +187,6 @@ Shader "Okano/NoeNoe Cutout" {
                 float3 node_4810 = viewDirection.brg;
                 float2 node_1431 = ((float2((node_9795*_TileSpeedX),(node_9795*_TileSpeedY))*node_47.g)+(1.0 - float2(((atan2(node_4810.r,node_4810.g)/6.28318530718)+0.5),(acos(node_4810.b)/(-1*3.141592654)))).rg);
                 float4 _TileOverlay_var = tex2D(_TileOverlay,TRANSFORM_TEX(node_1431, _TileOverlay));
-                float4 _MainTex_var = tex2D(_MainTex,TRANSFORM_TEX(i.uv0, _MainTex));
                 float3 finalColor = emissive + (_Intensity*saturate((lerp( Function_node_3693( float3(0,1,0) ), 0.0, _NoLightShading )+(_LightColor0.rgb*attenuation)))*(floor(saturate((dot(node_6405.rgb,float3(0.3,0.59,0.11))+0.8)) * node_9074) / (node_9074 - 1)-0.5)*lerp( 1.0, (floor(saturate((dot(_Ramp_copy.rgb,float3(0.3,0.59,0.11))+0.8)) * node_9409) / (node_9409 - 1)-0.5), _DynamicToonLighting )*lerp(lerp(((lerp(float3(node_7920,node_7920,node_7920),(lerp(float3(node_6078,node_6078,node_6078),(texCUBE(_CubemapOverlay,float3(node_769.r,(node_769.g*(-1.0)),node_769.b)).rgb*2.0),saturate(_CrossfadeTileCubemap))*lerp(float3(node_6078,node_6078,node_6078),_TileOverlay_var.rgb,saturate((node_6078+(1.0 - _CrossfadeTileCubemap))))),saturate(_CrossfadeSurfaceOverlay))*lerp(float3(node_7920,node_7920,node_7920),_MainTex_var.rgb,saturate((node_7920+(1.0 - _CrossfadeSurfaceOverlay)))))*_Color.rgb*1.0),dot(((lerp(float3(node_7920,node_7920,node_7920),(lerp(float3(node_6078,node_6078,node_6078),(texCUBE(_CubemapOverlay,float3(node_769.r,(node_769.g*(-1.0)),node_769.b)).rgb*2.0),saturate(_CrossfadeTileCubemap))*lerp(float3(node_6078,node_6078,node_6078),_TileOverlay_var.rgb,saturate((node_6078+(1.0 - _CrossfadeTileCubemap))))),saturate(_CrossfadeSurfaceOverlay))*lerp(float3(node_7920,node_7920,node_7920),_MainTex_var.rgb,saturate((node_7920+(1.0 - _CrossfadeSurfaceOverlay)))))*_Color.rgb*1.0),float3(0.3,0.59,0.11)),(-0.5)),dot(lerp(((lerp(float3(node_7920,node_7920,node_7920),(lerp(float3(node_6078,node_6078,node_6078),(texCUBE(_CubemapOverlay,float3(node_769.r,(node_769.g*(-1.0)),node_769.b)).rgb*2.0),saturate(_CrossfadeTileCubemap))*lerp(float3(node_6078,node_6078,node_6078),_TileOverlay_var.rgb,saturate((node_6078+(1.0 - _CrossfadeTileCubemap))))),saturate(_CrossfadeSurfaceOverlay))*lerp(float3(node_7920,node_7920,node_7920),_MainTex_var.rgb,saturate((node_7920+(1.0 - _CrossfadeSurfaceOverlay)))))*_Color.rgb*1.0),dot(((lerp(float3(node_7920,node_7920,node_7920),(lerp(float3(node_6078,node_6078,node_6078),(texCUBE(_CubemapOverlay,float3(node_769.r,(node_769.g*(-1.0)),node_769.b)).rgb*2.0),saturate(_CrossfadeTileCubemap))*lerp(float3(node_6078,node_6078,node_6078),_TileOverlay_var.rgb,saturate((node_6078+(1.0 - _CrossfadeTileCubemap))))),saturate(_CrossfadeSurfaceOverlay))*lerp(float3(node_7920,node_7920,node_7920),_MainTex_var.rgb,saturate((node_7920+(1.0 - _CrossfadeSurfaceOverlay)))))*_Color.rgb*1.0),float3(0.3,0.59,0.11)),(-0.5)),float3(0.3,0.59,0.11)),(1.0 - _Color.a)));
                 clip(_MainTex_var.a - _Cutoff);
                 return fixed4(finalColor, _MainTex_var.a);
@@ -303,21 +319,33 @@ Shader "Okano/NoeNoe Cutout" {
             #pragma multi_compile_shadowcaster
             #pragma only_renderers d3d9 d3d11 glcore gles 
             #pragma target 3.0
+            
+            sampler2D _MainTex; 
+            float4 _MainTex_ST;
+            float _Cutoff;
+            
             struct VertexInput {
                 float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
             };
             struct VertexOutput {
+                float2 uv0 : TEXCOORD0;
                 V2F_SHADOW_CASTER;
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
                 o.pos = UnityObjectToClipPos( v.vertex );
+                o.uv0 = v.uv;
                 TRANSFER_SHADOW_CASTER(o)
                 return o;
             }
             float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
                 float isFrontFace = ( facing >= 0 ? 1 : 0 );
                 float faceSign = ( facing >= 0 ? 1 : -1 );
+
+                float4 tex = tex2D(_MainTex, TRANSFORM_TEX(i.uv0, _MainTex));
+                clip(tex.a - _Cutoff); 
+
                 SHADOW_CASTER_FRAGMENT(i)
             }
             ENDCG
@@ -344,6 +372,9 @@ Shader "Okano/NoeNoe Cutout" {
             #pragma target 3.0
             uniform sampler2D _EmissionMap; uniform float4 _EmissionMap_ST;
             uniform float _Emission;
+            sampler2D _MainTex; 
+            float4 _MainTex_ST;
+            float _Cutoff;
             struct VertexInput {
                 float4 vertex : POSITION;
                 float2 texcoord0 : TEXCOORD0;
@@ -363,6 +394,10 @@ Shader "Okano/NoeNoe Cutout" {
             float4 frag(VertexOutput i, float facing : VFACE) : SV_Target {
                 float isFrontFace = ( facing >= 0 ? 1 : 0 );
                 float faceSign = ( facing >= 0 ? 1 : -1 );
+                
+                float4 tex = tex2D(_MainTex, TRANSFORM_TEX(i.uv0, _MainTex));
+                clip(tex.a - _Cutoff); 
+
                 UnityMetaInput o;
                 UNITY_INITIALIZE_OUTPUT( UnityMetaInput, o );
                 
