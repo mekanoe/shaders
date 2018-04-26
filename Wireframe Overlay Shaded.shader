@@ -1,37 +1,37 @@
 Shader "Okano/Wireframe Overlay (Shaded)"
 {
-	Properties
-	{
+    Properties
+    {
         _MainTex ("MainTex", 2D) = "white" {}
-		_BaseColor ("Base Color", Color) = (0.0, 0.0, 0.0, 0.0)
-		_WireframeDrawDistance ("Fade Distance", float) = 1.7
+        _BaseColor ("Base Color", Color) = (0.0, 0.0, 0.0, 0.0)
+        _WireframeDrawDistance ("Fade Distance", float) = 1.7
         _Rainbow ("Wireframe Texture", 2D) = "white" {}
         _Speed ("Wireframe Texture Speed", Float ) = 0.1
         _WireThickness ("Wire Thickness", RANGE(0, 800)) = 300
-		_WireSmoothness ("Wire Intensity", RANGE(0, 20)) = 20
-		_MaxTriSize ("Max Tri Size", RANGE(0, 200)) = 25
-	}
+        _WireSmoothness ("Wire Intensity", RANGE(0, 20)) = 20
+        _MaxTriSize ("Max Tri Size", RANGE(0, 200)) = 25
+    }
 
-	SubShader
-	{
-		Tags {
-			"RenderType"="Opaque"
-		}
+    SubShader
+    {
+        Tags {
+            "RenderType"="Opaque"
+        }
 
-		Pass
-		{
+        Pass
+        {
             Cull False
 
-			CGPROGRAM
-			#pragma geometry geom
-			#pragma fragment frag
-			#pragma vertex vert
-			#define NW_SHADED 1
+            CGPROGRAM
+            #pragma geometry geom
+            #pragma fragment frag
+            #pragma vertex vert
+            #define NW_SHADED 1
             #include "UnityCG.cginc"
-			#include "Libraries/Wireframe.cginc"
-			ENDCG
+            #include "Libraries/Wireframe.cginc"
+            ENDCG
         }
-		Pass {
+        Pass {
             Name "ShadowCaster"
             Tags {
                 "LightMode"="ShadowCaster"
@@ -68,5 +68,5 @@ Shader "Okano/Wireframe Overlay (Shaded)"
             }
             ENDCG
         }
-	}
+    }
 }

@@ -2,7 +2,7 @@ Shader "Hidden/Okano/NoeNoe Cutout" {
     Properties {
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Main texture (RGB)", 2D) = "white" {}
-		_Cutoff("Alpha cutoff", Range(0,1)) = 0.5
+        _Cutoff("Alpha cutoff", Range(0,1)) = 0.5
         _CrossfadeSurfaceOverlay ("Crossfade Surface / Overlay", Range(0, 2)) = 1
         _TileOverlay ("Tile Overlay", 2D) = "white" {}
         _TileSpeedX ("Tile Speed X", Range(-1, 1)) = 0
