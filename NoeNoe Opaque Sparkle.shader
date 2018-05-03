@@ -48,7 +48,7 @@ Shader "Okano/NoeNoe Opaque Emissive Sparkle" {
             #include "Lighting.cginc"
             #include "UnityPBSLighting.cginc"
             #include "UnityStandardBRDF.cginc"
-            #include "Sparkle.cginc"
+            #include "Libraries/Sparkle.cginc"
             #pragma multi_compile_fwdbase_fullshadows
             #pragma only_renderers d3d9 d3d11 glcore gles 
             #pragma shader_feature _FILTER_VIVID _FILTER_HARD _FILTER_LINEAR _FILTER_SOFT _FILTER_PIN
