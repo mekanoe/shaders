@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Hexatal
-  m_Shader: {fileID: 4800000, guid: 8d9ea4a1a6bb16d42b450294a1f1eb59, type: 3}
-  m_ShaderKeywords: _EMISSIONFROMALB_ON _TINTEMISSION_ON
+  m_Name: DARKNESS
+  m_Shader: {fileID: 4800000, guid: 442e87afcb86f974ab93263d3b7c1a57, type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -38,44 +38,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _EmissionMap1:
-        m_Texture: {fileID: 2800000, guid: 65c6e5f5640c0bf49b4de0667df48a54, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap2:
-        m_Texture: {fileID: 2800000, guid: cf451c2f67986fd49be0c06a8917603b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _GlossMap1:
-        m_Texture: {fileID: 2800000, guid: 534a9606caa53b54fb9702577c92104a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _GlossMap2:
-        m_Texture: {fileID: 2800000, guid: 42a5032e170eca5498b6f5882c6244e9, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MetalMap1:
-        m_Texture: {fileID: 2800000, guid: efaaea7f6a25a4d4fafa9fce85bf947f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetalMap2:
-        m_Texture: {fileID: 2800000, guid: efaaea7f6a25a4d4fafa9fce85bf947f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NormalMap1:
-        m_Texture: {fileID: 2800000, guid: e08c295755c0885479ad19f518286ff2, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NormalMap2:
-        m_Texture: {fileID: 2800000, guid: 2c19d5245bafc494a8edc592c5b07961, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -86,12 +54,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Tex1:
-        m_Texture: {fileID: 2800000, guid: cf451c2f67986fd49be0c06a8917603b, type: 3}
-        m_Scale: {x: 10, y: 10}
-        m_Offset: {x: 0, y: 0}
-    - _Tex2:
-        m_Texture: {fileID: 2800000, guid: 7c2a7b90d0a402f45a27ca403709f1b0, type: 3}
+    - _RimRamp:
+        m_Texture: {fileID: 2800000, guid: 994ead6592993d84e905f2b9a4eaa326, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -99,8 +63,6 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EmissionFromAlb: 1
-    - _EmissionMultipier: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -108,14 +70,15 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _RimEdgePower: 16.56
+    - _RimStartDistance: 0.2
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _SwitchSpeed: 10
-    - _TintEmission: 1
     - _UVSec: 0
+    - _UseRimColor: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Tint: {r: 1, g: 0, b: 0, a: 1}
+    - _RimColor: {r: 0.47794116, g: 0, b: 0, a: 0}

@@ -1,4 +1,4 @@
-Shader "Okano/Wireframe Overlay" {
+Shader "Okano/Wireframe Overlay/Diffuse Color" {
     Properties {
         _BaseColor ("Base Color", Color) = (0.0, 0.0, 0.0, 0.0)
         _WireframeDrawDistance ("Fade Distance", float) = 1.7
@@ -23,7 +23,7 @@ Shader "Okano/Wireframe Overlay" {
             #pragma fragment frag
 
             #include "UnityCG.cginc"
-            #include "Libraries/Wireframe.cginc"
+            #include "Libraries/Wireframe.cginc"//
 
             ENDCG
         }

@@ -1,4 +1,4 @@
-﻿Shader "Okano/Phone Screen"
+﻿Shader "Okano/Double-sided Unlit"
 {
     Properties
     {

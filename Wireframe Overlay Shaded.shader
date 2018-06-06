@@ -1,4 +1,4 @@
-Shader "Okano/Wireframe Overlay (Shaded)"
+Shader "Okano/Wireframe Overlay/Diffuse Shaded"
 {
     Properties
     {
