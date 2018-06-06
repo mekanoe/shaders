@@ -67,3 +67,10 @@ Most of these do not replace the real shaders for most uses.
 - NoeNoe's [Overlay Shaders](https://vrcat.club/threads/updated-2-2-18-noenoe-overlay-shaders.157/)
 - Bail's emotional support
 - VRChat friends that stare into my eyes
+
+## Want to support me?
+
+Tips help me live, and living means I can keep making pretty shaders. It's all appreciated, and I'll totally send you a thank you note.
+
+[PayPal](https://paypal.me/kayteh/5)
+[Patreon](https://patreon.com/kata/overview)
