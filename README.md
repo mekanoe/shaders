@@ -72,5 +72,5 @@ Most of these do not replace the real shaders for most uses.
 
 Tips help me live, and living means I can keep making pretty shaders. It's all appreciated, and I'll totally send you a thank you note.
 
-[PayPal](https://paypal.me/kayteh/5)
+[PayPal](https://paypal.me/kayteh/5)  
 [Patreon](https://patreon.com/kata/overview)
