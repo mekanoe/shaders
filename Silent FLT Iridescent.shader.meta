@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: ece83639a8b03e3489fa0605cd00decd
+timeCreated: 1528343702
+licenseType: Free
+ShaderImporter:
+  defaultTextures:
+  - _MainTex: {instanceID: 0}
+  - _ColorMask: {instanceID: 0}
+  - _LightingRamp: {instanceID: 0}
+  - _EmissionMap: {instanceID: 0}
+  - _SpecularMap: {instanceID: 0}
+  - _BumpMap: {instanceID: 0}
+  - _IridescentMap: {fileID: 8900000, guid: ade105816b4e7db4ba65ed7d6fbbeb27, type: 3}
+  - _IridescentMask: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
