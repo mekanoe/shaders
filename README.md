@@ -22,7 +22,11 @@ Most of these do not replace the real shaders for most uses.
 - **NoeNoe/Opaque Unlit GIF** - Unlit + Snail GIF overlay, because every effect is not enough effects.
 - **NoeNoe/Opaque Stencil** - Stencil diffused version of NoeNoe.
 - **NoeNoe/Opaque Sparkle** - Applies a controllable perlin noise light filter over the emission map.
+- **NoeNoe/Toon Opaque Sparkle** - Cheaper version of the original NoeNoe with sparkle.
+- **NoeNoe/Toon Opaque Eyes** - Highly configurable eye emote and *okay* particle shader based on NoeNoe Toon
+- **NoeNoe/Toon Opaque Iridescent** - Triplanar-ish reflections on top of NoeNoe Toon.
 - **Silent Flat Lit Toon Sparkle** - Silent's FLT with sparkle, with custom editor.
+- **Silent Flat Lit Toon Iridescent** - **SCUFFED** Older try at iridescent, please use NoeNoe Toon Iridescent for the same effect.
 - **Stencil Mask** - Helper shader for mask materials, allows per-material Ref values.
 - **Transparent** - Very efficient way to throw away pixels for lazy people.
 - **Wireframe Overlay** - ([See docs](https://github.com/kayteh/shaders/blob/master/Docs/Wireframe.md)) An optionally shaded wireframe overlay texture with a scrolling wireframe texture.
