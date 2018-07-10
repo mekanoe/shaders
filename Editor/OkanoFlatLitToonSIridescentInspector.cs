@@ -40,6 +40,7 @@ public class OkanoFlatLitToonSIridescentInspector : ShaderGUI
     MaterialProperty iridescentMap;
     MaterialProperty iridescentMix;
     MaterialProperty iridescentMask;
+    MaterialProperty instability;
 
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] props)
     {
@@ -63,6 +64,7 @@ public class OkanoFlatLitToonSIridescentInspector : ShaderGUI
             iridescentMap = FindProperty("_IridescentMap", props);
             iridescentMask = FindProperty("_IridescentMask", props);
             iridescentMix = FindProperty("_IridescentMix", props);
+            instability = FindProperty("_Instability", props);
         }
         
         Material material = materialEditor.target as Material;
@@ -110,10 +112,13 @@ public class OkanoFlatLitToonSIridescentInspector : ShaderGUI
                 EditorGUILayout.Space();
                 materialEditor.ShaderProperty(shadow, "Shadow");
                 materialEditor.ShaderProperty(fresnel, "Fresnel");
-                materialEditor.TexturePropertySingleLine(new GUIContent("Iridescent Cubemap (RGB)"), iridescentMap);
+
+                EditorGUILayout.Space();
+                materialEditor.TextureProperty(iridescentMap, "Iridescent Cubemap (RGB)", false);
                 EditorGUI.indentLevel += 2;
                 materialEditor.ShaderProperty(iridescentMix, "Iridescent Mix");
                 materialEditor.TexturePropertySingleLine(new GUIContent("Iridescent Mask (G)"), iridescentMask);
+                materialEditor.ShaderProperty(instability, "Instability");
                 EditorGUI.indentLevel -= 2;
                 
 

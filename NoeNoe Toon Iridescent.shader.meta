@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0126973e352f3dd41bda35b3fc499e10
+timeCreated: 1531109707
+licenseType: Free
+ShaderImporter:
+  defaultTextures:
+  - _MainTex: {instanceID: 0}
+  - _Ramp: {instanceID: 0}
+  - _EmissionMap: {instanceID: 0}
+  - _NormalMap: {instanceID: 0}
+  - _IridescentTex: {fileID: 2800000, guid: 7d4426cca7ddf1e4ca55449f7a6de604, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

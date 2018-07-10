@@ -20,6 +20,7 @@ Shader "Okano/Silent FLT Iridescent"
 		_IridescentMap("Iridescent Cubemap", Cube) = "_Skybox" {}
 		_IridescentMix("Iridescent Mix", Range(0,1)) = 0.3
 		_IridescentMask("Iridescent Mask", 2D) = "white" {}
+		_Instability("Instability", Range(0,1)) = 1
 
 		// Blending state
 		[HideInInspector] _Mode ("__mode", Float) = 0.0
@@ -59,6 +60,7 @@ Shader "Okano/Silent FLT Iridescent"
 			samplerCUBE _IridescentMap; float4 _IridescentMap_ST;
 			sampler2D _IridescentMask; float4 _IridescentMask_ST;
 			float _IridescentMix;
+			float _Instability;
 
 			float4 frag(VertexOutput i) : COLOR
 			{
@@ -116,9 +118,11 @@ Shader "Okano/Silent FLT Iridescent"
 				// Fresnel
 				float normalDotEye = dot(normalDirection, viewDirection); // ndotv
 				float fresnelEffect = (pow(1.0-max(0,normalDotEye),_Fresnel));
-				float tdotv = dot(i.tangentDir, viewDirection);
+				float tdotv = normalize(dot(i.tangentDir, viewDirection));
+
 				float3 iriMapPos = normalize(reflect(tdotv, objPos.xyz) + _WorldSpaceCameraPos);
-				float3 iridescentMap = texCUBE(_IridescentMap, iriMapPos) + texCUBE(_IridescentMap, normalDotEye - iriMapPos.yxz);
+				float3 iriS2Offset = lerp(float3(-iriMapPos.x, iriMapPos.yz), iriMapPos.yxz, _Instability);
+				float3 iridescentMap = texCUBE(_IridescentMap, iriMapPos) + texCUBE(_IridescentMap, normalDotEye - iriS2Offset);
 
 				float lightDifference = topIndirectLighting + grayscalelightcolor - bottomIndirectLighting;
 				float remappedLight = (grayscaleDirectLighting - bottomIndirectLighting) / lightDifference;
@@ -144,9 +148,9 @@ Shader "Okano/Silent FLT Iridescent"
 				//specularContribution = specular.rgb*lerp(indirectLighting, directLighting, specularContribution);
 				specularContribution = specular.rgb*indirectLighting*specularContribution;
 
-				float3 iridescentContribution = (iridescentMap * _IridescentMix) * grayscaleDirectLighting;
+				float3 iridescentContribution = (iridescentMap * _IridescentMix) * remappedLight;
 				
-                float3 finalColor = emissive + saturate(directContribution + specularContribution + iridescentContribution);
+                float3 finalColor = emissive + directContribution + specularContribution + iridescentContribution;
 
 				fixed4 finalRGBA = fixed4(finalColor * lightmap, baseColor.a);
 				UNITY_APPLY_FOG(i.fogCoord, finalRGBA);

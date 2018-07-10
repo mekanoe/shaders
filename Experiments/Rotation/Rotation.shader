@@ -4,7 +4,7 @@ Shader "Hidden/Okano/Experiments/Rotation"
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		_Angle ("Angle", Range(0,1.570796)) = 0
+		_RotationSpeed ("Rotation Speed", Float) = 1
 	}
 	SubShader
 	{
@@ -36,17 +36,23 @@ Shader "Hidden/Okano/Experiments/Rotation"
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
-			float _Angle;
+			float _RotationSpeed;
 			
 			v2f vert (appdata v)
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
-				float sAngle = ((_SinTime.y) + 1) * 3.141592;
-				float cAngle = ((_CosTime.y) + 1) * 3.141592;
-				v.uv.x = cAngle * v.uv.x - sAngle * v.uv.y;
-				v.uv.y = sAngle * v.uv.x + cAngle * v.uv.y;
+				v.uv.xy -= 0.5;
+				float sinX = sin ( _RotationSpeed * _Time );
+				float cosX = cos ( _RotationSpeed * _Time );
+				float sinY = sin ( _RotationSpeed * _Time );
+				float2x2 rotationMatrix = float2x2( cosX, -sinX, sinY, cosX);
+				rotationMatrix *=0.5;
+                rotationMatrix +=0.5;
+                rotationMatrix = rotationMatrix * 2-1;
+				v.uv.xy = mul ( v.uv.xy, rotationMatrix );
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+				// o.uv += 0.5;
 				UNITY_TRANSFER_FOG(o,o.vertex);
 				return o;
 			}
