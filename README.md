@@ -2,9 +2,9 @@
 
 Okano's Unity Shaders. Big mishmash of reworked, original, and mixed shaders.
 
-Built and tested in Unity 5.6.3p1 for VRChat and partially tested in 2018.1.
+Built and tested in Unity 5.6.3p1 & 2017.4.15f1 for VRChat, and partially tested in recent-ish 2018.
 
-Most of these do not replace the real shaders for most uses.
+Most of these do not replace the real shaders for most uses, some of these are also archaic versions of these base shaders. There may be weird things that happen.
 
 [Download the pack here](https://github.com/kayteh/shaders/releases/latest)
 
@@ -16,6 +16,7 @@ Most of these do not replace the real shaders for most uses.
 - **Corrupted Grabpass** - Corrupted but without a texture, just a grabpass. Used for geometry-based distortion.
 - **Cubed Flat Lit Toon Stencil** - Stencil diffused version of FLT, with custom editor for helping it.
 - **Double-sided Unlit** - Puts an unlit-ish texture on both sides of a mesh.
+- **Halftone Toon** - *WIP as of 3/Jan/2019* - An *okay* toon shader in the style of Spider-Man Noir from Into the Spiderverse movie.
 - **LUT Rim Lighting** - Use for edgy darkness with an outline when you're closer to it, LUT ramp included.
 - **NoeNoe/Emission Scroll** - Applies the overlay texture scroll mechanics to the emission map.
 - **NoeNoe/Opaque Unlit** - *Formerly "Rework"* - Removes lighting calculations in lieu of configurable white light.
@@ -43,8 +44,6 @@ Most of these do not replace the real shaders for most uses.
 - **Scuffed Glitter** - **SCUFFED** glitter-y effect. WIP.
 
 ### TODO
-
-- Silent FLT w/ Cube Reflection Overlay
 
 ## Examples
 

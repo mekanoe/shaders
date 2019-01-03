@@ -25,6 +25,7 @@
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
+                float3 tangent : TANGENT;
             };
 
             struct v2f {
@@ -33,6 +34,7 @@
                 float4 vertex : POSITION0;
                 float3 normal : NORMAL0;
                 float3 viewDir : NORMAL1;
+                float3 tangent : TANGENT;
             };
 
             sampler2D _RampTex; float4 _RampTex_ST;
@@ -54,10 +56,10 @@
                 }
             }
 
-            float2 parallax (float distance, float3 viewPos, float3 normal) {
-                float3 vRefl = reflect(-viewPos, normal);
-                float3 vTrans = float3(vRefl.xy, -vRefl.z);
-                float fDist = distance / abs(vTrans.z);
+            float2 parallax (float distance, float3 viewPos, float3 normal, float3 tangent) {
+                float3 vRefl = dot(-viewPos, normal);
+                float3 vTrans = -tangent;
+                float fDist = distance;
                 return fDist * vTrans.xy;
             }
             
@@ -67,6 +69,7 @@
                 o.uv = v.uv;
                 // o.normal = normalize(v.normal);
                 o.normal = v.normal;
+                o.tangent = v.tangent;
                 o.viewDir = ObjSpaceViewDir(v.vertex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
@@ -79,10 +82,11 @@
                 // run this backwards, building from floor to top
                 for (uint n = _Layers; n > 0; n--) {
                     float distance = _LayerDistance * (n);
-                    float2 offsetUV = parallax(distance, i.viewDir, i.normal);
+                    float2 offsetUV = parallax(distance, i.viewDir, i.normal, i.tangent);
                     float res = boxFromUV(i.uv + offsetUV);
                     if (res == 1) {
-                        col = tex2D(_RampTex, TRANSFORM_TEX(float2(offsetUV), _RampTex));
+                        // col = tex2D(_RampTex, TRANSFORM_TEX(float2(offsetUV), _RampTex));
+                        col = float4(1,1,1,1);
                     }
                 }
 

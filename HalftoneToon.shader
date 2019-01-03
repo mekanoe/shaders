@@ -1,4 +1,4 @@
-﻿Shader "Okano/HalftoneToon"
+﻿Shader "Okano/Halftone Toon"
 {
 	Properties
 	{
@@ -134,7 +134,7 @@
 				cgrid += circleGrid(i.uv, _CircleSize, pow(NdotV, _RimDotPower), _DotRanges.zw);
 				fixed4 tex = tex2D(_MainTex, i.uv);
 				fixed4 toon = tex2D(_ToonRamp, lighting.xx * _ToonRamp_ST.xy);
-				fixed3 col = saturate((lerp(toon.rgb,1,_ToonPower) * tex)+cgrid);
+				fixed3 col = saturate((lerp(toon.rgb,1,1-_ToonPower) * tex)+cgrid);
 
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);
